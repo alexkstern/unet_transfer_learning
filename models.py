@@ -101,7 +101,8 @@ class UNet3D(nn.Module):
 
     def __init__(self, in_channels, num_classes, level_channels=[64, 128, 256], bottleneck_channel=512) -> None:
         super(UNet3D, self).__init__()
-        # level_1_chnls, level_2_chnls, level_3_chnls = level_channels[0], level_channels[1], level_channels[2]
+
+        self.level_channels = level_channels
 
         self.down_convs = nn.ModuleList()
         self.up_convs = nn.ModuleList()
@@ -134,11 +135,13 @@ class UNet3D(nn.Module):
 
         x,_ = self.bottleNeck(x)
 
+        up_features = []
         for i,up_conv in enumerate(self.up_convs):
           res = residuals[-i-1]
           x,_ = up_conv(x, res)
+          up_features.append(x)
 
-        return x, residuals
+        return x, up_features[0] # currently return the features of of one layer after the bottleneck for gradient reversal
     
 
 # this model was implemented to allow for different number of ouput classes using a given base model
