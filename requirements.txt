@@ -1,5 +1,4 @@
-torch
-monai
-matplotlib
-numpy
-pandas
+pip install monai
+pip install matplotlib
+pip install numpy
+
