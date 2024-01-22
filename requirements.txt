@@ -1,4 +1,6 @@
-pip install monai
-pip install matplotlib
 pip install numpy
+pip install matplotlib
+pip install monai
+
+
 
