@@ -69,8 +69,7 @@ class CropClass(MapTransform):
         class_bin_array = (labels == self.class_number)
 
         availabel_indexes = torch.any(torch.any(class_bin_array, dim=1),dim=1)[0]
-
-        # pdb.set_trace()
+        
         if availabel_indexes.any() == False:
           min = 0
           max = availabel_indexes.shape[0]

@@ -7,7 +7,7 @@ here we create those datasets.
 """
 
 import os
-import pandas as pd
+import csv
 from transforms import NormalizeImageToRange
 from monai.transforms import (
     EnsureChannelFirstd,
@@ -116,16 +116,27 @@ amos22_transforms = Compose(
         NormalizeImageToRange(["image","label"],[-1,1])
     ])
 
-def create_img_label_list_amos22_df(df):
-  images_labels = df[['image path','labels path']]
-  return [{'image':os.path.join(baseDirAmos22,f[1][0][1:]),'label':os.path.join(baseDirAmos22,f[1][1][1:])} for f in images_labels.iterrows()]
+def create_img_label_list_amos22(rows):  
+  return [{'image':os.path.join(baseDirAmos22,row[0]),'label':os.path.join(baseDirAmos22,row[1])} for row in rows]
 
-def create_image_label_list_amos22(baseDir, label_path_filter, model_name_filter):
-  amos22_df = pd.read_csv(os.path.join(baseDir,'labeled_data_meta_0000_0599_with_paths.csv'))
-  amos22_df = amos22_df[[label_path_filter(label) for label in amos22_df['labels path']]]
-  amos22_df = amos22_df[[model_name_filter(model) for model in amos22_df['Manufacturer\'s Model Name']]]
-  amos22_df.reset_index(inplace=True)
-  return create_img_label_list_amos22_df(amos22_df)
+def create_image_label_list_amos22(baseDirAmos22, label_path_filter, model_name_filter):
+
+  rows = []
+  with open(os.path.join(baseDirAmos22,'labeled_data_meta_0000_0599_with_paths.csv'), 'r') as file:
+      csv_reader = csv.reader(file)
+
+      # Read and print each row in the CSV file
+      for row in csv_reader:
+
+        if label_path_filter(row[-1]) == False:
+           continue
+        
+        if model_name_filter(row[4]) == False:
+           continue          
+
+        rows.append(row[-2:])
+  
+  return create_img_label_list_amos22(rows)
 
 def save_cached_datasets_for_amos22():
   train_data_list = create_image_label_list_amos22(baseDirAmos22, lambda path: path.find('Tr')!=-1, lambda model: model in CT_scanners_amos22)
