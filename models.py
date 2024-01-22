@@ -123,7 +123,10 @@ class UNet3D(nn.Module):
 
 
     def freeze_decoder_layers(self):
-      self.up_convs.requires_grad = False
+      
+      # self.up_convs.requires_grad_(False)
+      for param in self.up_convs.parameters():
+        param.requires_grad = False
 
 
     def forward(self, x):

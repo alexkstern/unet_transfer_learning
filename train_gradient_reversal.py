@@ -144,7 +144,7 @@ for epoch_i in range(num_epochs):
     outputs_amos, features_amos = model(amos_imgs)
     
     # concat results
-    concat_both = torch.concat((features_pelvic[4], features_amos[4]),dim=0)
+    concat_both = torch.concat((features_pelvic, features_amos),dim=0)
 
     # classify with classifier
     critic_scores = critic(concat_both)

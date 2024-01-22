@@ -96,7 +96,7 @@ def train_one_epoch(model, dataloader, criterion, optimizer, device, augmentatio
     average_accuracy = total_accuracy / len(dataloader)
     return average_loss, average_accuracy
 
-#@torch.no_grad()
+
 def evaluate(model, num_classes, dataloader, criterion, device):
     model.eval()
     total_loss = 0.0
@@ -104,7 +104,7 @@ def evaluate(model, num_classes, dataloader, criterion, device):
     total_dice = 0.0
     dice_metric = Dice(num_classes)
 
-    with torch.no_grad(): #@torch.no_grad()
+    with torch.no_grad(): 
         
         for batch_data in dataloader:
 
@@ -120,8 +120,6 @@ def evaluate(model, num_classes, dataloader, criterion, device):
             dice = dice_metric(predictions,masks.squeeze(1))
 
             loss = criterion(outputs, masks.long())
-
-            # pbar.set_description(f"Validating, loss: {loss.item():.4f}, acc: {accuracy.item():.4f}, dice: {dice.item():.4f}")
 
             total_loss += loss.item()
             total_accuracy += accuracy.item()
