@@ -48,6 +48,7 @@ with open(os.path.join(baseDir,'valid_dataset_pelvic_128.pkl'), 'rb') as f:
 not_train_indices = list(range(len(not_train_dataset)))
 random.shuffle(not_train_indices)
 
+# split the remaining 20% of the dataset into 10% - validation, 10% - test
 valid_indices = not_train_indices[:len(not_train_indices)//2]
 test_indices = not_train_indices[len(not_train_indices)//2:]
 
