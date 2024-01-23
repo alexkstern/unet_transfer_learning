@@ -28,8 +28,6 @@ baseDirAmos22 = config.baseDirAmos22
 baseDir = config.baseDir
 baseDirPelvic = config.baseDirPelvic
 
-# when generating the datasets we used: random.seed(42)
-
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 1st Dataset ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 def create_img_label_list_PelvicDataset(baseDir):

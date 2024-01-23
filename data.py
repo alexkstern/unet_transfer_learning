@@ -6,6 +6,8 @@ This assumes the datasets follow the directory structure specified in the instru
 Otherwise please change the paths in the config.py file accordingly.
 '''
 
+# when generating the datasets we used: random.seed(42)
+
 # create cached datasets for the 1st dataset
 save_cached_datasets_for_pelvicMR()
 
