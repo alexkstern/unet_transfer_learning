@@ -119,10 +119,10 @@ amos22_transforms = Compose(
 def create_img_label_list_amos22(rows):  
   return [{'image':os.path.join(baseDirAmos22,row[0]),'label':os.path.join(baseDirAmos22,row[1])} for row in rows]
 
-def create_image_label_list_amos22(baseDirAmos22, label_path_filter, model_name_filter):
+def create_image_label_list_amos22(baseDir, label_path_filter, model_name_filter):
 
   rows = []
-  with open(os.path.join(baseDirAmos22,'labeled_data_meta_0000_0599_with_paths.csv'), 'r') as file:
+  with open(os.path.join(baseDir,'labeled_data_meta_0000_0599_with_paths.csv'), 'r') as file:
       csv_reader = csv.reader(file)
 
       # Read and print each row in the CSV file
@@ -139,8 +139,8 @@ def create_image_label_list_amos22(baseDirAmos22, label_path_filter, model_name_
   return create_img_label_list_amos22(rows)
 
 def save_cached_datasets_for_amos22():
-  train_data_list = create_image_label_list_amos22(baseDirAmos22, lambda path: path.find('Tr')!=-1, lambda model: model in CT_scanners_amos22)
-  val_data_list = create_image_label_list_amos22(baseDirAmos22, lambda path: path.find('Va')!=-1, lambda model: model in CT_scanners_amos22)
+  train_data_list = create_image_label_list_amos22(baseDir, lambda path: path.find('Tr')!=-1, lambda model: model in CT_scanners_amos22)
+  val_data_list = create_image_label_list_amos22(baseDir, lambda path: path.find('Va')!=-1, lambda model: model in CT_scanners_amos22)
 
   train_dataset = CacheDataset(data=train_data_list, transform=amos22_transforms)
   valid_dataset = CacheDataset(data=val_data_list, transform=amos22_transforms)
